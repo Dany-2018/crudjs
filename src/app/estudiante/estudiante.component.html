@@ -1,0 +1,59 @@
+<section class="estudianteapp">
+
+  <header class="header">
+    <h1>Todos</h1>
+    <input class="new-estudiante" 
+      Placeholder="que necesita agregar" 
+      [(ngModel)]="newEstudiante"
+      (keyup.enter)="addEstudiante()"
+      autofocus> 
+  </header>
+
+  <!-- This section should be hidden by default and shown when there are todos -->
+  <section class="main">
+
+    <label for="toggle-all">Mark all as complete</label>
+    <input id="toggle-all" class="toggle-all" type="checkbox">
+
+    <ul class="todo-list">
+      <!-- These are here just to show the structure of the list items -->
+      <!-- List items should get the class `editing` when editing and `completed` when marked as completed -->
+      <li *ngFor="let todo of todos" [ngClass]="{completed: estudiante.isDone, editing: estudiante.editing}" >
+        <div class="view">
+          <input class="toggle" type="checkbox" [checked]="estudiante.isDone">
+          
+            <label (bdlclick)="estudiante.editing = true">{{estudiante.title}}</label>
+          <button class="destroy" (click)="destroyEstudiante(estudiante)"></button>
+        </div>
+        <input class="edit"
+        
+          #updatedEstudiante
+          [value]="estudiante.title"
+          (blur)="updateEstudiante(estudiante, updatedEstudiante.value)"
+          (keyup.escape)="estudiante.editing = false"  
+          (keyup.enter)="updateEstudiante(estudiante, updatedEstudiante.value)" >       
+       
+      </li>
+    </ul>
+  </section>
+
+  <!-- This footer should hidden by default and shown when there are todos -->
+  <footer class="footer">
+    <!-- This should be `0 items left` by default -->
+    <span class="todo-count"><strong>0</strong> item left</span>
+    <!-- Remove this if you don't implement routing -->
+    <ul class="filters">
+      <li>
+        <a [routerLink]="['/all']" [class.selected]="path === 'all'" >All</a>
+      </li>
+      <li>
+        <a [routerLink]="['/active']" [class.selected]="path === 'active'">Active</a>
+      </li>
+      <li>
+        <a [routerLink]="['/completed']" [class.selected]="path === 'completed'">Completed</a>
+      </li>
+    </ul>
+    <!-- Hidden if no completed items are left ↓ -->
+    <button class="clear-completed" (click)="clearCompleted()">Clear completed</button>
+  </footer>
+</section>
